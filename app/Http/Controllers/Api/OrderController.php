@@ -50,10 +50,18 @@ class OrderController extends Controller
                 $order = $this->orderService->placeSellOrder($userId, $symbol, $price, $amount);
             }
 
+            /**
+             * ⭐ Automatically trigger matching
+             */
+            $matchResult = $this->matchingService->matchOrder($order);
+
             return response()->json([
                 'success' => true,
-                'order' => $order
+                'order' => $order,
+                'matched' => $matchResult ? true : false,
+                'trade' => $matchResult ?? null,
             ]);
+
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -61,6 +69,7 @@ class OrderController extends Controller
             ], 400);
         }
     }
+
 
     /**
      * Cancel an order

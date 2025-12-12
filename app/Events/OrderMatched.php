@@ -34,6 +34,8 @@ class OrderMatched implements ShouldBroadcast
             'trade_id' => $this->trade->id,
             'buy_order_id' => $this->trade->buy_order_id,
             'sell_order_id' => $this->trade->sell_order_id,
+            'buyer_id' => $this->trade->buyOrder->user_id,
+            'seller_id' => $this->trade->sellOrder->user_id,
             'symbol' => $this->trade->buyOrder->symbol,
             'price' => $this->trade->price,
             'amount' => $this->trade->amount,

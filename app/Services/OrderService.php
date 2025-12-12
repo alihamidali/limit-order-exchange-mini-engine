@@ -62,6 +62,7 @@ class OrderService
      */
     public function placeSellOrder(int $userId, string $symbol, float $price, float $amount)
     {
+//        dd($userId, $symbol, $price, $amount);
         return DB::transaction(function () use ($userId, $symbol, $price, $amount) {
 
             $asset = $this->assetRepo->getUserAsset($userId, $symbol);

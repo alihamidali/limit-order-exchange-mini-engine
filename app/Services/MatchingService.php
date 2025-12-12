@@ -1,7 +1,7 @@
 <?php
 
-
 namespace App\Services;
+
 use App\Events\OrderMatched;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
@@ -21,11 +21,10 @@ class MatchingService
 
     public function __construct(
         OrderRepository $orderRepo,
-        UserRepository  $userRepo,
+        UserRepository $userRepo,
         AssetRepository $assetRepo,
         TradeRepository $tradeRepo
-    )
-    {
+    ) {
         $this->orderRepo = $orderRepo;
         $this->userRepo = $userRepo;
         $this->assetRepo = $assetRepo;
@@ -43,29 +42,29 @@ class MatchingService
             $amount = $newOrder->amount;
             $price = $newOrder->price;
 
+            // Find counter order
             if ($newOrder->side === 'buy') {
-                // Match with first sell order where sell.price <= buy.price
                 $counterOrder = $this->orderRepo->getOpenOrders($symbol)
                     ->where('side', 'sell')
                     ->first(fn($o) => $o->price <= $price && $o->amount == $amount);
             } else {
-                // Match with first buy order where buy.price >= sell.price
                 $counterOrder = $this->orderRepo->getOpenOrders($symbol)
                     ->where('side', 'buy')
                     ->first(fn($o) => $o->price >= $price && $o->amount == $amount);
             }
 
+            // No matching order found → leave new order open
             if (!$counterOrder) {
-                return null; // No match found
+                return null;
             }
 
-            // Calculate trade price (we take price of the order being matched)
+            // Matching order found → process trade
             $tradePrice = $counterOrder->price;
             $tradeAmount = $amount;
             $tradeValueUSD = $tradePrice * $tradeAmount;
             $commission = $tradeValueUSD * $this->commissionRate;
 
-            // Update buyer and seller balances/assets
+            // Assign buyer and seller
             if ($newOrder->side === 'buy') {
                 $buyer = $newOrder->user;
                 $seller = $counterOrder->user;
@@ -74,16 +73,16 @@ class MatchingService
                 $seller = $newOrder->user;
             }
 
-            // Update buyer: deduct USD + commission
-            $buyer->balance -= $commission; // optional: commission from buyer
+            // Update buyer: deduct commission
+            $buyer->balance -= $commission;
             $buyer->save();
 
-            // Update seller: unlock assets and deduct commission if you want
+            // Update seller: unlock sold assets
             $sellerAsset = $this->assetRepo->getUserAsset($seller->id, $symbol);
             $sellerAsset->locked_amount -= $tradeAmount;
             $sellerAsset->save();
 
-            // Buyer receives assets
+            // Update buyer assets
             $buyerAsset = $this->assetRepo->getUserAsset($buyer->id, $symbol);
             if (!$buyerAsset) {
                 $buyerAsset = $buyer->assets()->create([
@@ -96,7 +95,7 @@ class MatchingService
                 $buyerAsset->save();
             }
 
-            // Update order statuses
+            // Update order statuses to filled
             $this->orderRepo->updateStatus($newOrder->id, 'filled');
             $this->orderRepo->updateStatus($counterOrder->id, 'filled');
 
@@ -108,8 +107,10 @@ class MatchingService
                 'amount' => $tradeAmount,
                 'commission' => $commission,
             ]);
-// 🔹 Broadcast the trade event via Pusher
+
+            // 🔹 Broadcast trade event via Pusher
             event(new OrderMatched($trade));
+
             return $trade;
         });
     }

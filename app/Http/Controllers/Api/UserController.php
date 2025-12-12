@@ -21,6 +21,7 @@ class UserController extends Controller
 
         return response()->json([
             'success' => true,
+            'user' => $user,
             'balance' => $user->balance,
             'assets' => $assets
         ]);
