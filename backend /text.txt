@@ -1,0 +1,471 @@
+POST http://127.0.0.1:8000/api/register
+Request Body
+
+{
+  "name": "test",
+  "email": "test@gmail.com",
+  "password": "password1234",
+  "password_confirmation": "password1234"
+}
+Response Body
+{
+    "success": true,
+    "user": {
+        "name": "test",
+        "email": "test@gmail.com",
+        "balance": "0.00000000",
+        "updated_at": "2025-12-11T05:48:24.000000Z",
+        "created_at": "2025-12-11T05:48:24.000000Z",
+        "id": 2
+    },
+    "token": "6|ZdKVMRoFaUWb1XMbnE5DUzIaI0e6gWGcXyKNDdvZ01004834"
+}
+
+POST http://127.0.0.1:8000/api/login
+
+Request Body
+
+{
+  "email": "test@example.com",
+  "password": "password1234"
+}
+
+Response Body
+{
+    "success": true,
+    "user": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "email_verified_at": null,
+        "created_at": "2025-12-10T20:26:51.000000Z",
+        "updated_at": "2025-12-11T04:18:18.000000Z",
+        "balance": "2925.00000000"
+    },
+    "token": "5|dbSJTLWeFaobqbZzWS9qtrTSE5mijCT4ZauxXCaK97a9fb5a"
+}
+
+GET http://127.0.0.1:8000/api/profile
+Response Body
+{
+    "success": true,
+    "balance": "8102.00000000",
+    "assets": [
+        {
+            "symbol": "BTC",
+            "amount": "99.50000000",
+            "locked_amount": "0.50000000"
+        }
+    ]
+}
+
+POST http://127.0.0.1:8000/api/my-orders
+
+Request Body
+
+{
+  "symbol": "BTC",
+  "side": "buy",
+  "price": 10000,
+  "amount": 0.1
+}
+Response Body
+{
+    "success": true,
+    "order": {
+        "user_id": 1,
+        "symbol": "BTC",
+        "side": "buy",
+        "price": "10000.00000000",
+        "amount": "0.10000000",
+        "status": "open",
+        "updated_at": "2025-12-11T06:51:53.000000Z",
+        "created_at": "2025-12-11T06:51:53.000000Z",
+        "id": 12
+    }
+}
+
+
+POST http://127.0.0.1:8000/api/my-orders
+Request Body
+{
+  "symbol": "BTC",
+  "side": "sell",
+  "price": 50000,
+  "amount": 0.1
+}
+
+
+Response Body
+{
+    "success": true,
+    "order": {
+        "user_id": 1,
+        "symbol": "BTC",
+        "side": "sell",
+        "price": "50000.00000000",
+        "amount": "0.10000000",
+        "status": "open",
+        "updated_at": "2025-12-11T06:51:34.000000Z",
+        "created_at": "2025-12-11T06:51:34.000000Z",
+        "id": 11
+    }
+}
+
+POST http://127.0.0.1:8000/api/orders/{id}/cancel
+Request Body
+
+{
+    "success": true,
+    "message": "Order cancelled"
+}
+
+POST  http://127.0.0.1:8000/api/orders/match
+Request Body
+
+{
+  "order_id":3
+}
+
+Response Body
+
+{
+    "success": true,
+    "trade": {
+        "buy_order_id": 12,
+        "sell_order_id": 12,
+        "price": "50000.00000000",
+        "amount": "0.10000000",
+        "commission": "75.00000000",
+        "updated_at": "2025-12-11T06:52:23.000000Z",
+        "created_at": "2025-12-11T06:52:23.000000Z",
+        "id": 11
+    }
+}
+
+GET http://127.0.0.1:8000/api/orderbook?symbol=BTC
+Response Body
+{
+    "success": true,
+    "buy": [
+        {
+            "id": 12,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "10000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T06:51:53.000000Z",
+            "updated_at": "2025-12-11T06:51:53.000000Z"
+        },
+        {
+            "id": 6,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:06:17.000000Z",
+            "updated_at": "2025-12-11T04:06:17.000000Z"
+        },
+        {
+            "id": 7,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:10:17.000000Z",
+            "updated_at": "2025-12-11T04:10:17.000000Z"
+        },
+        {
+            "id": 8,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:12:40.000000Z",
+            "updated_at": "2025-12-11T04:12:40.000000Z"
+        },
+        {
+            "id": 9,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:18:18.000000Z",
+            "updated_at": "2025-12-11T04:18:18.000000Z"
+        },
+        {
+            "id": 10,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "4000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T05:49:47.000000Z",
+            "updated_at": "2025-12-11T05:49:47.000000Z"
+        }
+    ],
+    "sell": [
+        {
+            "id": 5,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-10T21:56:07.000000Z",
+            "updated_at": "2025-12-10T21:56:07.000000Z"
+        },
+        {
+            "id": 11,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T06:51:34.000000Z",
+            "updated_at": "2025-12-11T06:51:34.000000Z"
+        }
+    ]
+}
+
+GET http://127.0.0.1:8000/api/orders
+
+Request Body
+{
+    "success": true,
+    "orders": [
+        {
+            "id": 37,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "500.00000000",
+            "amount": "0.50000000",
+            "status": "open",
+            "created_at": "2025-12-11T15:47:36.000000Z",
+            "updated_at": "2025-12-11T15:47:36.000000Z"
+        },
+        {
+            "id": 36,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "900.00000000",
+            "amount": "1.00000000",
+            "status": "open",
+            "created_at": "2025-12-11T15:42:18.000000Z",
+            "updated_at": "2025-12-11T15:42:18.000000Z"
+        },
+        {
+            "id": 35,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "500.00000000",
+            "amount": "0.50000000",
+            "status": "open",
+            "created_at": "2025-12-11T15:38:10.000000Z",
+            "updated_at": "2025-12-11T15:38:10.000000Z"
+        },
+        {
+            "id": 26,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "500.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T14:48:25.000000Z",
+            "updated_at": "2025-12-11T14:48:25.000000Z"
+        },
+        {
+            "id": 24,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "99.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T14:35:31.000000Z",
+            "updated_at": "2025-12-11T14:35:31.000000Z"
+        },
+        {
+            "id": 22,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "500.00000000",
+            "amount": "0.20000000",
+            "status": "open",
+            "created_at": "2025-12-11T14:33:22.000000Z",
+            "updated_at": "2025-12-11T14:33:22.000000Z"
+        },
+        {
+            "id": 20,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "998.00000000",
+            "amount": "1.00000000",
+            "status": "open",
+            "created_at": "2025-12-11T14:22:41.000000Z",
+            "updated_at": "2025-12-11T14:22:41.000000Z"
+        },
+        {
+            "id": 18,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "1000.00000000",
+            "amount": "2.00000000",
+            "status": "open",
+            "created_at": "2025-12-11T13:25:29.000000Z",
+            "updated_at": "2025-12-11T13:25:29.000000Z"
+        },
+        {
+            "id": 12,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "10000.00000000",
+            "amount": "0.10000000",
+            "status": "cancelled",
+            "created_at": "2025-12-11T06:51:53.000000Z",
+            "updated_at": "2025-12-11T06:53:44.000000Z"
+        },
+        {
+            "id": 11,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T06:51:34.000000Z",
+            "updated_at": "2025-12-11T06:51:34.000000Z"
+        },
+        {
+            "id": 10,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "4000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T05:49:47.000000Z",
+            "updated_at": "2025-12-11T05:49:47.000000Z"
+        },
+        {
+            "id": 9,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:18:18.000000Z",
+            "updated_at": "2025-12-11T04:18:18.000000Z"
+        },
+        {
+            "id": 8,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:12:40.000000Z",
+            "updated_at": "2025-12-11T04:12:40.000000Z"
+        },
+        {
+            "id": 7,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:10:17.000000Z",
+            "updated_at": "2025-12-11T04:10:17.000000Z"
+        },
+        {
+            "id": 6,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "5000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-11T04:06:17.000000Z",
+            "updated_at": "2025-12-11T04:06:17.000000Z"
+        },
+        {
+            "id": 5,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "open",
+            "created_at": "2025-12-10T21:56:07.000000Z",
+            "updated_at": "2025-12-10T21:56:07.000000Z"
+        },
+        {
+            "id": 4,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "filled",
+            "created_at": "2025-12-10T21:56:05.000000Z",
+            "updated_at": "2025-12-11T06:52:23.000000Z"
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "filled",
+            "created_at": "2025-12-10T21:31:47.000000Z",
+            "updated_at": "2025-12-10T21:48:48.000000Z"
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "sell",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "filled",
+            "created_at": "2025-12-10T20:59:05.000000Z",
+            "updated_at": "2025-12-10T21:48:48.000000Z"
+        },
+        {
+            "id": 1,
+            "user_id": 1,
+            "symbol": "BTC",
+            "side": "buy",
+            "price": "50000.00000000",
+            "amount": "0.10000000",
+            "status": "cancelled",
+            "created_at": "2025-12-10T20:45:15.000000Z",
+            "updated_at": "2025-12-10T21:04:53.000000Z"
+        }
+    ]
+}

@@ -1,0 +1,242 @@
+{
+    "info": {
+        "name": "CryptoAPI",
+        "_postman_id": "f8a3c8f2-1234-5678-90ab-cdef12345678",
+        "description": "Postman collection for your Crypto Exchange API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Register",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"test\",\n  \"email\": \"test@gmail.com\",\n  \"password\": \"password1234\",\n  \"password_confirmation\": \"password1234\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/register",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "register"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Login",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password1234\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/login",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "login"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Profile",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/profile",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "profile"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Place Buy Order",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"symbol\": \"BTC\",\n  \"side\": \"buy\",\n  \"price\": 10000,\n  \"amount\": 0.1\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/my-orders",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "my-orders"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Place Sell Order",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"symbol\": \"BTC\",\n  \"side\": \"sell\",\n  \"price\": 50000,\n  \"amount\": 0.1\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/my-orders",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "my-orders"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Cancel Order",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"success\": true,\n  \"message\": \"Order cancelled\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/orders/12/cancel",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "orders", "12", "cancel"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Match Order",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"order_id\": 3\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/orders/match",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "orders", "match"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Orderbook",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/orderbook?symbol=BTC",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "orderbook"],
+                    "query": [
+                        {
+                            "key": "symbol",
+                            "value": "BTC"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Orders",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://127.0.0.1:8000/api/orders",
+                    "protocol": "http",
+                    "host": ["127.0.0.1"],
+                    "port": "8000",
+                    "path": ["api", "orders"]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "token",
+            "value": ""
+        }
+    ]
+}
