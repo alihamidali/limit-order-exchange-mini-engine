@@ -74,39 +74,32 @@ PUSHER_APP_CLUSTER=mt1
 SANCTUM_STATEFUL_DOMAINS=localhost,127.0.0.1
 Frontend (.env)
 env
-Copy code
+
 VITE_API_URL=http://127.0.0.1:8000/api
 VITE_PUSHER_KEY=6692b3093204c9706f50
 VITE_PUSHER_CLUSTER=mt1
 Backend Setup
 Clone the repository:
 
-bash
-Copy code
+
 git clone <your-repo-url>
 cd backend
 Install dependencies:
 
-bash
-Copy code
+
 composer install
 Copy .env:
 
-bash
-Copy code
+
 cp .env.example .env
 Generate app key:
 
-bash
-Copy code
+
 php artisan key:generate
 Run migrations:
 
-bash
-Copy code
 php artisan migrate
 Serve the backend:
 
-bash
-Copy code
+
 php artisan serve
