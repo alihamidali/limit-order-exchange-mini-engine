@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+
+// NEW PUBLIC ORDERBOOK CHANNEL
+Broadcast::channel('orderbook.{symbol}', function ($user, $symbol) {
+    return true;
+});

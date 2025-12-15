@@ -3,6 +3,7 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
@@ -24,7 +25,9 @@ class OrderMatched implements ShouldBroadcast
     {
         return [
             new PrivateChannel('user.' . $this->trade->buyOrder->user_id),
-            new PrivateChannel('user.' . $this->trade->sellOrder->user_id)
+            new PrivateChannel('user.' . $this->trade->sellOrder->user_id),
+            new Channel('orderbook.' . $this->trade->buyOrder->symbol),
+
         ];
     }
 
@@ -39,7 +42,9 @@ class OrderMatched implements ShouldBroadcast
             'symbol' => $this->trade->buyOrder->symbol,
             'price' => $this->trade->price,
             'amount' => $this->trade->amount,
-            'commission' => $this->trade->commission
+            'commission' => $this->trade->commission,
+            'buy_order_status' => $this->trade->buyOrder->status,
+            'sell_order_status' => $this->trade->sellOrder->status,
         ];
     }
 }
